@@ -1,0 +1,83 @@
+{% extends 'generator/base.html' %}
+
+
+
+{% block bodycontent %}
+<style>
+    /* Custom styles to center the table */
+    .center-table {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 40vh;
+        
+    }
+    table.table td,
+        table.table th {
+            text-align: center;
+        }
+</style>
+
+{% if messages %}
+<div class="alert alert-dismissible fade show" role="alert" id="message-container">
+    <ul class="list-unstyled">
+        {% for message in messages %}
+        <li class="alert alert-{{ message.tags }}" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Set a timer to hide messages after 5 seconds
+    $(document).ready(function() {
+        setTimeout(function() {
+            $('#message-container').fadeOut('fast');
+        }, 5000); // 5000 milliseconds = 5 seconds
+    });
+</script>
+{% endif %}
+
+<div class="card mx-4 mt-5 " style="padding: 15px;">
+    <div class="card-body"><h4 class="font-weight-bold">Student Data</h4></div>
+    <table class="table table-striped ">
+        <thead>
+            <tr>
+           
+                <th scope="col">id</th>
+                <th scope="col">name</th>
+                <th scope="col">course</th>
+                <th scope="col">Email_id</th>
+                <th scope="col">Added_Date</th>
+                <th scope="col">Action</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in data %}
+            <tr>
+                <td>{{i.id}}</td>
+                <td>{{i.name}}</td>
+                <td>{{i.course}}</td>
+                <td>{{i.email}}</td>
+                <td>{{i.date_added}}</td>
+                <td >
+                    <form action="{% url 'send_certificate_email'  i.id %}"  method="post">
+                        {% csrf_token %}
+                        <input class="btn btn-outline-primary fw-bold" name="btnSubmit" type="submit" value="Send Certificate"/>
+                        </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
+</div>
+
+{% endblock bodycontent %}

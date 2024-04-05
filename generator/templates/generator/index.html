@@ -1,0 +1,35 @@
+{% extends 'generator/base.html' %}
+{% block bodycontent %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="jumbotron mt-5 " style="background-color:#fff; border-radius:20px
+      ">
+        <h1 class="display-4">Welcome to CertificateGen</h1>
+      <p class="lead">Create personalized certificates effortlessly!</p>
+      
+        </p>
+        <hr>
+      <form action="{% url 'upload_excel' %}" id="upload-form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="file" id="file-input" required>
+        <span class="remove-file" onclick="clearFile()">&#10006;</span> <!-- X icon -->&nbsp;&nbsp;
+        <button class="btn btn-primary btn-lg" >Upload CSV </button>
+    </form>
+        
+      </div>
+    </div>
+    {% if error_message %}
+        <div class="alert alert-danger" role="alert">
+          {{ error_message }}
+        </div>
+      {% endif %}
+  </div>
+</div>
+
+<script>
+  function clearFile() {
+      document.getElementById('file-input').value = null;
+  }
+</script>
+{% endblock bodycontent %}
